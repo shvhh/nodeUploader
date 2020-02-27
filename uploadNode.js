@@ -1,7 +1,7 @@
 const http = require('https');
 var fs = require('fs');
 
-const filepath = 'photo-1499084732479-de2c02d45fc.jpeg';
+const filepath = 'build.zip';
 const hostname = 'upload-file-node.herokuapp.com';
 var data = fs.readFileSync(filepath);
 
@@ -9,7 +9,7 @@ var crlf = '\r\n',
   boundaryKey = Math.random().toString(16),
   boundary = `--${boundaryKey}`,
   delimeter = `${crlf}--${boundary}`,
-  headers = [`Content-Disposition: form-data; name="file"; filename="${filepath}"` + crlf],
+  headers = [`Content-Disposition: form-data; name="file"; filename="${filepath.split('/').pop()}"` + crlf],
   closeDelimeter = `${delimeter}--`;
 
 const multipartBody = Buffer.concat([
@@ -35,13 +35,20 @@ const req = http.request(options, res => {
     response += d;
   });
   res.on('end', () => {
+    clearInterval(timeout);
     console.log('https://' + hostname + '/' + JSON.parse(response).filename);
   });
 });
-
 req.on('error', error => {
   console.error(error);
 });
 
 req.write(multipartBody);
+
 req.end();
+let loadingString = 'LOADING';
+const timeout = setInterval(() => {
+  loadingString += '.';
+  console.clear();
+  console.log(loadingString);
+}, 2000);
