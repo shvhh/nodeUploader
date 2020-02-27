@@ -3,6 +3,8 @@ var multer = require('multer');
 var fs = require('fs');
 var path = require('path');
 var directory = 'uploads';
+
+console.log(JSON.stringify(process.env));
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, directory);

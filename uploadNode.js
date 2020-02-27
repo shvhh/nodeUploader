@@ -1,24 +1,26 @@
-const http = require('http');
+const http = require('https');
 var fs = require('fs');
 
-var data = fs.readFileSync('photo-1499084732479-de2c02d45fc.jpeg');
+const filepath = 'photo-1499084732479-de2c02d45fc.jpeg';
+const hostname = 'upload-file-node.herokuapp.com';
+var data = fs.readFileSync(filepath);
 
 var crlf = '\r\n',
   boundaryKey = Math.random().toString(16),
   boundary = `--${boundaryKey}`,
   delimeter = `${crlf}--${boundary}`,
-  headers = ['Content-Disposition: form-data; name="file"; filename="photo-1499084732479-de2c02d45fc.jpeg "' + crlf],
+  headers = [`Content-Disposition: form-data; name="file"; filename="${filepath}"` + crlf],
   closeDelimeter = `${delimeter}--`;
 
 const multipartBody = Buffer.concat([
-  new Buffer(delimeter + crlf + headers.join('') + crlf),
+  Buffer.from(delimeter + crlf + headers.join('') + crlf),
   data,
-  new Buffer(closeDelimeter),
+  Buffer.from(closeDelimeter),
 ]);
 
 const options = {
-  hostname: 'localhost',
-  port: 8000,
+  hostname,
+  port: 443,
   path: '/upload',
   method: 'POST',
   headers: {
@@ -28,10 +30,12 @@ const options = {
 };
 
 const req = http.request(options, res => {
-  console.log(`statusCode: ${res.statusCode}`);
-
+  let response = '';
   res.on('data', d => {
-    process.stdout.write(d);
+    response += d;
+  });
+  res.on('end', () => {
+    console.log('https://' + hostname + '/' + JSON.parse(response).filename);
   });
 });
 
