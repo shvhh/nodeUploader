@@ -13,7 +13,7 @@ async function sendMail({ to, subject, text, html }) {
   });
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <foo@example.com>', // sender address
+    from: '"Android Builder 🤖" <builder@android.com>', // sender address
     to: to.join(','), // list of receivers
     subject, // Subject line
     text, // plain text body

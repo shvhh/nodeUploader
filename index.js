@@ -26,7 +26,7 @@ app.use(express.static(directory));
 app.post('/upload', upload.single('file'), async function(req, res, next) {
   await sendMail({
     subject: 'android Build created',
-    to: ['hemantrajput19@gmail.com'],
+    to: ['hemantrajput19@gmail.com','hemant.rajpoot@unthinkable.co'],
     html: '<a href="' + 'https://upload-file-node.herokuapp.com/' + req.file.filename + '">Click Here to download</a>',
   });
   return res.send(req.file);
