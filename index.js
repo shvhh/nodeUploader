@@ -21,7 +21,7 @@ var upload = multer({ storage });
 
 var app = express();
 app.use(express.static(directory));
-app.post('/profile', upload.single('file'), function(req, res, next) {
+app.post('/upload', upload.single('file'), function(req, res, next) {
   res.send(req.file);
 });
 
