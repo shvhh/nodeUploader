@@ -35,6 +35,7 @@ app.post('/upload', upload.single('file'), async function(req, res, next) {
       'shubham.sharma@unthinkable.co',
       'jasleen.narula@daffodilsw.com',
       'abhishek.kumar@unthinkable.co',
+      'deepak.kumar@daffodilsw.com',
     ],
     html: '<a href="' + 'https://upload-file-node.herokuapp.com/' + req.file.filename + '">Click Here to download</a>',
   });
